@@ -6,27 +6,31 @@ export default function Workout() {
   const router = useRouter();
   const [workout, setWorkout] = useState({});
 
-  const { equipment, muscleGroups, difficulties } = router.query;
+  const { name, numOfEx, repeat, equipment, muscleGroups, difficulties } =
+    router.query;
+
+  const query = router.query;
+
+  console.dir("query", query);
 
   const workoutOrder = {
-    name: "Workout Name",
-    numberOfExercises: 3,
-    repeatExercises: true,
-    equipment: Array.isArray(equipment)
-      ? equipment.map((item) => parseInt(item, 10))
-      : [],
-    muscleGroups: Array.isArray(muscleGroups)
-      ? muscleGroups.map((item) => parseInt(item, 10))
-      : [],
-    difficulties: Array.isArray(difficulties)
-      ? difficulties.map((item) => parseInt(item, 10))
-      : [],
+    name: name.length > 0 ? name : "New Workout",
+    numberOfExercises: parseInt(numOfEx, 10),
+    repeatExercises: Boolean(repeat),
+    equipment: Array.from(equipment === 'EMPTY' ? [] : equipment).map(Number),
+    muscleGroups: Array.from(muscleGroups === 'EMPTY' ? [] : muscleGroups).map(Number),
+    difficulties: Array.from(difficulties === 'EMPTY' ? [] : difficulties).map(Number),
   };
+
+
+  console.dir('order',workoutOrder)
 
   useEffect(() => {
     const putWorkout = async () => {
       try {
-        const result = await fetchWorkout(workoutOrder).then(res=>res.json());
+        const result = await fetchWorkout(workoutOrder).then((res) =>
+          res.json()
+        );
         setWorkout(result);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -36,8 +40,8 @@ export default function Workout() {
   }, []);
 
   useEffect(() => {
-    console.log('workout',workout);
+    console.log("workout", workout);
   }, [workout]);
 
-  return <>Working</>;
+  return <>Working Out</>;
 }

@@ -1,15 +1,11 @@
 const basePath = "http://localhost:8080/api/workout"
 
-
-
 export function fetchTypes() {
   const path = basePath + "/types";
   return fetchGET(path);
 }
 
 export function fetchWorkout(obj) {
-
-  console.log('fetch obj',obj)
 
   const path = basePath;
 
