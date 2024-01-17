@@ -1,13 +1,14 @@
-// CreateWorkout.jsx
 import CheckboxForm from "@/components/checkboxform";
 import CustomButton from "@/components/custombutton";
 import { fetchTypes } from "@/scripts/apifetcher";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function CreateWorkout() {
   const [muscleGroups, setMuscleGroups] = useState([]);
   const [equipment, setEquipment] = useState([]);
   const [difficulties, setDifficulties] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,15 +40,19 @@ export default function CreateWorkout() {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     console.log("Selected Data:", selectedData);
+    router.push({
+      pathname: '/workout',
+      query: selectedData,
+    });
   };
 
   return (
-    <div className="flex justify-center items-center">
+    <div>
       <form
         onSubmit={handleFormSubmit}
-        className="flex flex-col items-center w-64"
+        className="flex flex-col items-center max-h-full overflow-auto"
       >
-        <div className="flex flex-row mb-2 flex-shrink-0 flex-grow-0">
+        <div className="flex flex-row">
           <CheckboxForm
             title="Equipment"
             options={equipment}
