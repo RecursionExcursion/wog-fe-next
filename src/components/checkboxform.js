@@ -1,3 +1,5 @@
+import { formatString } from '../scripts/util.js'
+
 export default function CheckboxForm(props) {
   return (
     <div className="border border-primary p-10 flex flex-col gap-5">
@@ -6,7 +8,7 @@ export default function CheckboxForm(props) {
         {props.options.map((option) => (
           <div className="flex flex-row gap-4" key={option.value}>
             <input type="checkbox" value={option.value} name={props.title} />
-            <label>{option.name}</label>
+            <label>{formatString(option.name)}</label>
           </div>
         ))}
       </div>
