@@ -10,10 +10,15 @@ export default function CreateWorkout() {
   const [difficulties, setDifficulties] = useState([]);
   const router = useRouter();
 
-  const [myNumber, setMyNumber] = useState(1); // Default value is 5
+  const [myNumber, setMyNumber] = useState(1);
+  const [repeat, setRepeat] = useState(true);
 
-  const handleChange = (event) => {
+  const handleNumberChange = (event) => {
     setMyNumber(Number(event.target.value));
+  };
+
+  const handleRepeatCheckboxChange = () => {
+    setRepeat(!repeat);
   };
 
   useEffect(() => {
@@ -38,21 +43,26 @@ export default function CreateWorkout() {
     const selectedMuscleGroups = Array.from(formData.getAll("Muscle Groups"));
     const selectedDifficulties = Array.from(formData.getAll("Difficulties"));
 
-    const nonEmptySelectedEquipment =
-      selectedEquipment.length > 0 ? selectedEquipment : ["EMPTY"];
-    const nonEmptySelectedMuscleGroups =
-      selectedMuscleGroups.length > 0 ? selectedMuscleGroups : ["EMPTY"];
-    const nonEmptySelectedDifficulties =
-      selectedDifficulties.length > 0 ? selectedDifficulties : ["EMPTY"];
+    const checkOptions = [
+      selectedEquipment,
+      selectedMuscleGroups,
+      selectedDifficulties,
+    ];
+
+    checkOptions.forEach((arr, index) => {
+      checkOptions[index] = arr.length > 0 ? arr : ["EMPTY"];
+    });
 
     formData = {
       name: event.target.name.value,
       numOfEx: event.target.numOfExercises.value,
       repeat: event.target.repeat.checked,
-      equipment: nonEmptySelectedEquipment,
-      muscleGroups: nonEmptySelectedMuscleGroups,
-      difficulties: nonEmptySelectedDifficulties,
+      equipment: checkOptions[0],
+      muscleGroups: checkOptions[1],
+      difficulties: checkOptions[2],
     };
+
+    console.dir('formdata',formData)
 
     router.push({
       pathname: "/workout",
@@ -66,6 +76,7 @@ export default function CreateWorkout() {
         onSubmit={handleFormSubmit}
         className="flex flex-col items-center max-h-full overflow-auto"
       >
+        {/* Exercise name */}
         <div className="flex flex-col gap-2">
           <label>
             <input
@@ -77,34 +88,47 @@ export default function CreateWorkout() {
             {"Name"}
           </label>
 
+          {/* #of Exercises */}
           <label>
             <input
               className="text-black"
               type="number"
               min={1}
               value={myNumber}
-              onChange={handleChange}
+              onChange={handleNumberChange}
               placeholder="Enter number"
               name="numOfExercises"
             />
             {"# of exercises"}
           </label>
         </div>
+
+        {/* Allow repeat */}
         <label>
-          <input type="checkbox" id="myCheckbox" name="repeat" checked/>
+          <input
+            type="checkbox"
+            id="myCheckbox"
+            name="repeat"
+            onChange={handleRepeatCheckboxChange}
+            checked={repeat}
+          />
           {"Allow exercies to repeat"}
         </label>
+
+        {/* Checkboxes */}
         <div className="flex flex-row">
           <CheckboxForm
             title="Equipment"
             name="equipment"
             options={equipment}
           />
+
           <CheckboxForm
             title="Muscle Groups"
             name="muscleGroups"
             options={muscleGroups}
           />
+
           <CheckboxForm
             title="Difficulties"
             name="difficulties"
