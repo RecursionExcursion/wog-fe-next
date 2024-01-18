@@ -62,7 +62,7 @@ export default function CreateWorkout() {
       difficulties: checkOptions[2],
     };
 
-    console.dir('formdata',formData)
+    console.dir("formdata", formData);
 
     router.push({
       pathname: "/workout",
@@ -70,28 +70,30 @@ export default function CreateWorkout() {
     });
   };
 
+  const upperFormStyling = "flex flex-row gap-2"
+
   return (
-    <div>
+    <div className="h-[100%] p-5">
       <form
         onSubmit={handleFormSubmit}
-        className="flex flex-col items-center max-h-full overflow-auto"
+        className="flex flex-col items-center max-h-full overflow-auto gap-4"
       >
         {/* Exercise name */}
         <div className="flex flex-col gap-2">
-          <label>
+          <div className={upperFormStyling}>
             <input
-              className="text-black"
+              className="text-black w-28 rounded-full pl-2"
               type="text"
               placeholder="Enter text"
               name="name"
             />
-            {"Name"}
-          </label>
+            <label>{"Name"}</label>
+          </div>
 
           {/* #of Exercises */}
-          <label>
+          <div className={upperFormStyling}>
             <input
-              className="text-black"
+              className="text-black w-20 text-center rounded-full pr-2"
               type="number"
               min={1}
               value={myNumber}
@@ -99,21 +101,21 @@ export default function CreateWorkout() {
               placeholder="Enter number"
               name="numOfExercises"
             />
-            {"# of exercises"}
-          </label>
-        </div>
+            <label>{"# of exercises"}</label>
+          </div>
 
-        {/* Allow repeat */}
-        <label>
-          <input
-            type="checkbox"
-            id="myCheckbox"
-            name="repeat"
-            onChange={handleRepeatCheckboxChange}
-            checked={repeat}
-          />
-          {"Allow exercies to repeat"}
-        </label>
+          {/* Allow repeat */}
+          <div className={upperFormStyling}>
+            <input
+              type="checkbox"
+              id="myCheckbox"
+              name="repeat"
+              onChange={handleRepeatCheckboxChange}
+              checked={repeat}
+            />
+            <label>{"Allow exercies to repeat"}</label>
+          </div>
+        </div>
 
         {/* Checkboxes */}
         <div className="flex flex-row">

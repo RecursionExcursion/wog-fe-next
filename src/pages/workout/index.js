@@ -6,7 +6,10 @@ import { useEffect, useState } from "react";
 export default function Workout() {
   const router = useRouter();
   const [workout, setWorkout] = useState({});
-  // const [order, setOrder] = useState({});
+
+  const convertToArrayOfNumbers = (value) => {
+    return Array.from(value === "EMPTY" ? [] : value).map(Number);
+  };
 
   useEffect(() => {
     const putWorkout = async () => {
@@ -18,37 +21,29 @@ export default function Workout() {
         workoutOrder = {
           name: name.length > 0 ? name : "New Workout",
           numberOfExercises: parseInt(numOfEx, 10),
-          repeatExercises: Boolean(repeat),
-          equipment: Array.from(equipment === "EMPTY" ? [] : equipment).map(
-            Number
-          ),
-          muscleGroups: Array.from(
-            muscleGroups === "EMPTY" ? [] : muscleGroups
-          ).map(Number),
-          difficulties: Array.from(
-            difficulties === "EMPTY" ? [] : difficulties
-          ).map(Number),
+          repeatExercises: repeat === "true" ? true : false,
+          equipment:convertToArrayOfNumbers(equipment),
+          muscleGroups: convertToArrayOfNumbers(muscleGroups),
+          difficulties: convertToArrayOfNumbers(difficulties),
         };
       } catch (error) {
-        router.push({ pathname: "/error" });
+        router.push({ pathname: "/error",
+        query:  { error: error.message }
+       });
       }
 
-      console.dir("order", workoutOrder);
       try {
         const result = await fetchWorkout(workoutOrder).then((res) =>
           res.json()
         );
         setWorkout(result);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        router.push({pathname:"/error/api-request-error", 
+        query:  { error: error.message}})
       }
     };
     putWorkout();
   }, []);
-
-  useEffect(() => {
-    console.log("workout", workout);
-  }, [workout]);
 
   return <WorkoutTable workout={workout} />;
 }

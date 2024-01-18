@@ -26,19 +26,6 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-div {
-  padding: 20px;
-  /* border: 1px solid #ddd; */
-}
-
-header {
-  background-color: #2a858f;
-  padding: 10px;
-}
-
-footer {
-  margin-top: 20px;
-  background-color: #2a858f;
-  padding: 10px;
-  text-align: center;
+#__next{
+  height: 100%;
 }
