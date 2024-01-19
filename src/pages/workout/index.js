@@ -22,14 +22,12 @@ export default function Workout() {
           name: name.length > 0 ? name : "New Workout",
           numberOfExercises: parseInt(numOfEx, 10),
           repeatExercises: repeat === "true" ? true : false,
-          equipment:convertToArrayOfNumbers(equipment),
+          equipment: convertToArrayOfNumbers(equipment),
           muscleGroups: convertToArrayOfNumbers(muscleGroups),
           difficulties: convertToArrayOfNumbers(difficulties),
         };
       } catch (error) {
-        router.push({ pathname: "/error",
-        query:  { error: error.message }
-       });
+        router.push({ pathname: "/error", query: { error: error.message } });
       }
 
       try {
@@ -38,12 +36,19 @@ export default function Workout() {
         );
         setWorkout(result);
       } catch (error) {
-        router.push({pathname:"/error/api-request-error", 
-        query:  { error: error.message}})
+        router.push({
+          pathname: "/error/api-request-error",
+          query: { error: error.message },
+        });
       }
     };
     putWorkout();
   }, []);
 
-  return <WorkoutTable workout={workout} />;
+  return (
+    <div className="flex flex-col h-full justify-center items-center">
+      <h1 className="text-4xl font-bold text-white mb-4 relative">{workout.name}</h1>
+      <WorkoutTable workout={workout} />
+    </div>
+  );
 }

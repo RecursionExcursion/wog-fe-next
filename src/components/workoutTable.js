@@ -4,16 +4,18 @@ export default function WorkoutTable(props) {
   const workout = props.workout ?? { exercises: [] };
 
   const tdStyle = "w-1/4 p-2 border flex justify-center";
+  const thStyle = "w-1/4 p-2 border";
 
   return (
     <div className="overflow-y-auto h-[100%]">
       <table className="w-full border border-white ">
         <thead>
           <tr className="flex gap-1 bg-primary">
-            <th className="w-1/4 p-2 border">Exercise</th>
-            <th className="w-1/4 p-2 border">Difficulty</th>
-            <th className="w-1/4 p-2 border">Equipment</th>
-            <th className="w-1/4 p-2 border">Muscle Groups</th>
+            <th className={thStyle}>Exercise</th>
+            <th className={thStyle}>Difficulty</th>
+            <th className={thStyle}>Equipment</th>
+            <th className={thStyle}>Muscle Groups</th>
+            <th className={thStyle}>How To</th>
           </tr>
         </thead>
         <tbody>
@@ -26,6 +28,13 @@ export default function WorkoutTable(props) {
                 <td className={tdStyle}>
                   {ex.muscleGroups.map((s) => formatString(s)).join(", ")}
                 </td>
+                <td className={tdStyle}>
+                {ex.notes && (
+                  <a href={ex.notes} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                    Link
+                  </a>
+                )}
+              </td>
               </tr>
             ))}
         </tbody>
